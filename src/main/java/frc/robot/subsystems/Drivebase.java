@@ -23,7 +23,7 @@ public class Drivebase extends SubsystemBase {
 
 
   // drive train speed, set to 0.x for X% speed
-  private final double drivetrainMultiplier = 0.50;
+  private final double drivetrainMultiplier = 1.0;
 
   /**
    * Creates a new Drivebase.

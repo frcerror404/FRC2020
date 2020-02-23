@@ -15,19 +15,26 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Intake extends SubsystemBase {
   private final TalonSRX intakeMotor = new TalonSRX(21);
+  private final TalonSRX HorozontalMotor = new TalonSRX(22);
+  private final TalonSRX VerticalMotor = new TalonSRX(23);
   /**
    * Creates a new Intake.
    */
   public Intake() {
 
-  }
+  } 
 
   public void turnOnIntake() {
     intakeMotor.set(TalonSRXControlMode.PercentOutput, -1.0);
+    HorozontalMotor.set(TalonSRXControlMode.PercentOutput, -1.0);
+    VerticalMotor.set(TalonSRXControlMode.PercentOutput, -1.0);
   }
 
   public void turnOffIntake(){
     intakeMotor.set(TalonSRXControlMode.PercentOutput, 0);
+    HorozontalMotor.set(TalonSRXControlMode.PercentOutput, 0.0);
+    VerticalMotor.set(TalonSRXControlMode.PercentOutput, 0.0);
+
   }
 
   @Override
