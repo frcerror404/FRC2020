@@ -11,13 +11,22 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.SetDrivetrainSpeedCommand;
+import frc.robot.commands.TurnOffIndexer;
 import frc.robot.commands.TurnOffIntakeCommand;
+import frc.robot.commands.TurnOffShooterCommand;
+import frc.robot.commands.TurnOnIndexer;
 import frc.robot.commands.TurnOnIntakeCommand;
+import frc.robot.commands.TurnOnShooterCommand;
+import frc.robot.commands.TurnOffShooterCommand;
+
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -32,6 +41,7 @@ import edu.wpi.first.wpilibj.XboxController.*;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Intake m_intake = new Intake();
+  private final Shooter m_shooter = new Shooter();
   private final Drivebase m_Drivebase = new Drivebase();
 
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
@@ -56,12 +66,23 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton rightBumper = new JoystickButton(joy0, 6);
-    JoystickButton leftBumper = new JoystickButton(joy0, 5);
+    JoystickButton rightBumper = new JoystickButton(joy1, 6);
+    JoystickButton leftBumper = new JoystickButton(joy1, 5);
+    JoystickButton aButton = new JoystickButton(joy1, 1);
 
     rightBumper
       .whenPressed(new TurnOnIntakeCommand(m_intake))
       .whenReleased(new TurnOffIntakeCommand(m_intake));
+
+    leftBumper
+      .whenPressed(new TurnOnShooterCommand(m_shooter))
+      .whenReleased(new TurnOffShooterCommand(m_shooter));
+
+    aButton
+      .whenPressed(new TurnOnIndexer(m_shooter))
+      .whenReleased(new TurnOffIndexer(m_shooter));
+
+
       
 
     m_Drivebase.setDefaultCommand(
