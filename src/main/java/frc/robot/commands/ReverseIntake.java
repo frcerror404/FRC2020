@@ -5,20 +5,21 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.subsystems.Intake;
 
-public class index extends SubsystemBase {
-  /**
-   * Creates a new index.
-   */
-  public index() {
-
+public class ReverseIntake extends InstantCommand {
+  public final Intake intake;
+  public ReverseIntake(Intake intake) {
+    this.intake = intake;
+    addRequirements(intake);
   }
 
+  // Called when the command is initially scheduled.
   @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+  public void initialize() {
+    intake.reverseIntake();
   }
 }

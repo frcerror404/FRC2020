@@ -30,6 +30,12 @@ public class Intake extends SubsystemBase {
     VerticalMotor.set(TalonSRXControlMode.PercentOutput, -0.65);
   }
 
+  public void reverseIntake() {
+    intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.5);
+    HorozontalMotor.set(TalonSRXControlMode.PercentOutput, 0.5);
+    VerticalMotor.set(TalonSRXControlMode.PercentOutput, 0.5);
+  }
+
   public void turnOffIntake(){
     intakeMotor.set(TalonSRXControlMode.PercentOutput, 0);
     HorozontalMotor.set(TalonSRXControlMode.PercentOutput, 0.0);

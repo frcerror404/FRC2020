@@ -8,11 +8,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.DualHandedWinchSpeed;
+import frc.robot.commands.ReverseIntake;
 import frc.robot.commands.SetDrivetrainSpeedCommand;
 import frc.robot.commands.TurnOffIndexer;
 import frc.robot.commands.TurnOffIntakeCommand;
@@ -20,17 +19,11 @@ import frc.robot.commands.TurnOffShooterCommand;
 import frc.robot.commands.TurnOnIndexer;
 import frc.robot.commands.TurnOnIntakeCommand;
 import frc.robot.commands.TurnOnShooterCommand;
-import frc.robot.commands.TurnOffShooterCommand;
-
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivebase;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj.XboxController.*;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -43,6 +36,7 @@ public class RobotContainer {
   private final Intake m_intake = new Intake();
   private final Shooter m_shooter = new Shooter();
   private final Drivebase m_Drivebase = new Drivebase();
+  private final Climber m_climber = new Climber();
 
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final XboxController joy0 = new XboxController(0);
@@ -66,9 +60,10 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton rightBumper = new JoystickButton(joy1, 6);
-    JoystickButton leftBumper = new JoystickButton(joy1, 5);
-    JoystickButton aButton = new JoystickButton(joy1, 1);
+    JoystickButton rightBumper = new JoystickButton(joy1, XboxController.Button.kBumperRight.value);
+    JoystickButton leftBumper = new JoystickButton(joy1, XboxController.Button.kBumperLeft.value);
+    JoystickButton aButton = new JoystickButton(joy1, XboxController.Button.kA.value);
+    JoystickButton yButton = new JoystickButton(joy1, XboxController.Button.kY.value);
 
     rightBumper
       .whenPressed(new TurnOnIntakeCommand(m_intake))
@@ -82,6 +77,10 @@ public class RobotContainer {
       .whenPressed(new TurnOnIndexer(m_shooter))
       .whenReleased(new TurnOffIndexer(m_shooter));
 
+    yButton
+      .whenPressed(new ReverseIntake(m_intake))
+      .whenReleased(new TurnOffIntakeCommand(m_intake));
+
 
       
 
@@ -91,6 +90,8 @@ public class RobotContainer {
         () -> joy0.getY(Hand.kRight),
          m_Drivebase)
     );
+
+    m_climber.setDefaultCommand(new DualHandedWinchSpeed(joy0.getTriggerAxis(Hand.kLeft), joy0.getTriggerAxis(Hand.kRight), m_climber));
   }
 
  
