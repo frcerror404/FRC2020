@@ -7,13 +7,15 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climber;
 
 
-public class DualHandedWinchSpeed extends InstantCommand {
-  private double leftHandSpeed = 0.0;
-  private double rightHandSpeed = 0.0;
+public class DualHandedWinchSpeed extends CommandBase {
+  private DoubleSupplier leftHandSpeed;
+  private DoubleSupplier rightHandSpeed;
   private final Climber climber;
 
 
@@ -27,7 +29,7 @@ public class DualHandedWinchSpeed extends InstantCommand {
    * @param rightHandSpeed
    * @param climber
    */
-  public DualHandedWinchSpeed(double leftHandSpeed, double rightHandSpeed, Climber climber) {
+  public DualHandedWinchSpeed(DoubleSupplier leftHandSpeed, DoubleSupplier rightHandSpeed, Climber climber) {
     this.leftHandSpeed = leftHandSpeed;
     this.rightHandSpeed = rightHandSpeed;
     this.climber = climber;
@@ -36,13 +38,17 @@ public class DualHandedWinchSpeed extends InstantCommand {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    double finalSpeed = leftHandSpeed * 0.5 + rightHandSpeed * 0.5; 
-
+  public void execute() {
+    double finalSpeed = leftHandSpeed.getAsDouble() * 0.5 + rightHandSpeed.getAsDouble() * 0.5; 
     if(finalSpeed < .15) {
       finalSpeed = 0.0;
     }
 
     climber.setWinchSpeed(finalSpeed);
+  }
+
+  @Override
+  public boolean isFinished() {
+    return false; // Runs until interrupted
   }
 }

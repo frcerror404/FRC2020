@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import frc.robot.commands.DualHandedWinchSpeed;
 import frc.robot.commands.ReverseIntake;
+import frc.robot.commands.RewindWinch;
 import frc.robot.commands.SetDrivetrainSpeedCommand;
 import frc.robot.commands.TurnOffIndexer;
 import frc.robot.commands.TurnOffIntakeCommand;
@@ -24,12 +25,14 @@ import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
- * This class is where the bulk of the robot should be declared.  Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
- * (including subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
@@ -38,15 +41,13 @@ public class RobotContainer {
   private final Drivebase m_Drivebase = new Drivebase();
   private final Climber m_climber = new Climber();
 
-  //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  // private final ExampleCommand m_autoCommand = new
+  // ExampleCommand(m_exampleSubsystem);
   private final XboxController joy0 = new XboxController(0);
   private final XboxController joy1 = new XboxController(1);
 
-
-
-
   /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
+   * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
@@ -60,26 +61,41 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton rightBumper = new JoystickButton(joy1, XboxController.Button.kBumperRight.value);
-    JoystickButton leftBumper = new JoystickButton(joy1, XboxController.Button.kBumperLeft.value);
-    JoystickButton aButton = new JoystickButton(joy1, XboxController.Button.kA.value);
-    JoystickButton yButton = new JoystickButton(joy1, XboxController.Button.kY.value);
+    JoystickButton P1_rightBumper = new JoystickButton(joy1, XboxController.Button.kBumperRight.value);
+    JoystickButton P1_leftBumper = new JoystickButton(joy1, XboxController.Button.kBumperLeft.value);
+    JoystickButton P1_aButton = new JoystickButton(joy1, XboxController.Button.kA.value);
+    JoystickButton P1_yButton = new JoystickButton(joy1, XboxController.Button.kY.value);
+    
+    
+    /**
+     * Press Start and Back on both controllers to reset
+     */
+    new JoystickButton(joy1, XboxController.Button.kStart.value)
+    .and(new JoystickButton(joy1, XboxController.Button.kBack.value))
+    .and(new JoystickButton(joy0, XboxController.Button.kStart.value))
+    .and(new JoystickButton(joy0, XboxController.Button.kBack.value))
+    .whileActiveContinuous(new RewindWinch(m_climber));
+    
 
-    rightBumper
+
+
+    P1_rightBumper
       .whenPressed(new TurnOnIntakeCommand(m_intake))
       .whenReleased(new TurnOffIntakeCommand(m_intake));
 
-    leftBumper
+    P1_leftBumper
       .whenPressed(new TurnOnShooterCommand(m_shooter))
       .whenReleased(new TurnOffShooterCommand(m_shooter));
 
-    aButton
+    P1_aButton
       .whenPressed(new TurnOnIndexer(m_shooter))
       .whenReleased(new TurnOffIndexer(m_shooter));
 
-    yButton
+    P1_yButton
       .whenPressed(new ReverseIntake(m_intake))
       .whenReleased(new TurnOffIntakeCommand(m_intake));
+
+    
 
 
       
@@ -88,10 +104,16 @@ public class RobotContainer {
       new SetDrivetrainSpeedCommand(
         () -> joy0.getY(Hand.kLeft),
         () -> joy0.getY(Hand.kRight),
-         m_Drivebase)
-    );
+        m_Drivebase));
 
-    m_climber.setDefaultCommand(new DualHandedWinchSpeed(joy0.getTriggerAxis(Hand.kLeft), joy0.getTriggerAxis(Hand.kRight), m_climber));
+
+      m_climber.setDefaultCommand(
+      new DualHandedWinchSpeed(
+        () -> joy0.getTriggerAxis(Hand.kLeft), 
+        () -> joy0.getTriggerAxis(Hand.kRight),
+        m_climber));
+
+  
   }
 
  
