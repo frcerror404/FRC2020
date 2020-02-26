@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -19,17 +20,27 @@ public class SetDrivetrainSpeedCommand extends CommandBase {
   private final Drivebase m_Drivebase;
   private final DoubleSupplier m_leftAxis;
   private final DoubleSupplier m_rightAxis;
+  private final BooleanSupplier m_turbo;
 
-  public SetDrivetrainSpeedCommand(DoubleSupplier leftAxis, DoubleSupplier rightAxis, Drivebase drivebase) {
+  public SetDrivetrainSpeedCommand(DoubleSupplier leftAxis, DoubleSupplier rightAxis, BooleanSupplier turbo, Drivebase drivebase) {
     m_Drivebase = drivebase;
     m_leftAxis = leftAxis;
     m_rightAxis = rightAxis;
+    m_turbo = turbo;
     addRequirements(drivebase);
   }
 
   @Override
   public void execute() {
-    m_Drivebase.manualControl(-m_leftAxis.getAsDouble(), -m_rightAxis.getAsDouble());
+    // Default speed multiplier = 70%
+    double speedMultiplier = .7;
+
+    // If the turbo button is pressed, change the speed multipier to 100%
+    if(m_turbo.getAsBoolean()) {
+      speedMultiplier = 1.0;
+    }
+
+    m_Drivebase.manualControl(-m_leftAxis.getAsDouble() * speedMultiplier, -m_rightAxis.getAsDouble() * speedMultiplier);
   }
 
    // Make this return true when this Command no longer needs to run execute()

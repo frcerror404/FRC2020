@@ -25,7 +25,6 @@ import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -65,6 +64,7 @@ public class RobotContainer {
     JoystickButton P1_leftBumper = new JoystickButton(joy1, XboxController.Button.kBumperLeft.value);
     JoystickButton P1_aButton = new JoystickButton(joy1, XboxController.Button.kA.value);
     JoystickButton P1_yButton = new JoystickButton(joy1, XboxController.Button.kY.value);
+    JoystickButton P0_rightBumper = new JoystickButton(joy0, XboxController.Button.kBumperRight.value);
     
     
     /**
@@ -104,6 +104,7 @@ public class RobotContainer {
       new SetDrivetrainSpeedCommand(
         () -> joy0.getY(Hand.kLeft),
         () -> joy0.getY(Hand.kRight),
+        () -> P0_rightBumper.get(),
         m_Drivebase));
 
 
