@@ -7,9 +7,19 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.autonomous.modes.DriveStraightAuton;
+import frc.robot.commands.autonomous.modes.LineUpAndShoot3Auton;
+import frc.robot.commands.autonomous.modes.NoopAuton;
+import frc.robot.subsystems.Drivebase;
+import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,9 +28,18 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
+  private Drivebase m_drivebase;
+  private Indexer m_indexer;
+  private Intake m_intake;
+  private Shooter m_shooter;
+
+
+
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  private SendableChooser<Command> chooser = new SendableChooser<>();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -31,6 +50,19 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    m_drivebase = new Drivebase();
+    m_indexer = new Indexer();
+    m_intake = new Intake();
+    m_shooter = new Shooter();
+
+    UsbCamera camera0 = CameraServer.getInstance().startAutomaticCapture();
+    camera0.setResolution(320, 240);
+    camera0.setFPS(20);
+
+    chooser.addOption("Nothing", new NoopAuton());
+		chooser.addOption("Drive forward", new DriveStraightAuton(m_drivebase));
+    chooser.addOption("Shoot 3", new LineUpAndShoot3Auton(m_drivebase, m_shooter, m_indexer, m_intake));
   }
 
   /**
@@ -66,6 +98,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     
+    m_autonomousCommand = chooser.getSelected();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

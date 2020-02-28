@@ -9,31 +9,22 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
-
-public class Shooter extends SubsystemBase {
+public class Indexer extends SubsystemBase {
+  private final TalonSRX indexerWheel = new TalonSRX(24);
   /**
-   * Creates a new shooter.
+   * Creates a new Indexer.
    */
-  private final CANSparkMax shooterMotor = new CANSparkMax(25, MotorType.kBrushless);
-  
-
-  public Shooter() {
+  public Indexer() {
 
   }
-  
-  /**
-   * @param ShooterSpeed the speed 0-1
-   */
-  public void setShooterSpeed(double shooterSpeed) {
-    shooterMotor.set(shooterSpeed);
+
+  public void setIndexerWheelSpeed(double indexerWheelSpeed) {
+    indexerWheel.set(TalonSRXControlMode.PercentOutput, indexerWheelSpeed);
   }
-  
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -22,6 +22,7 @@ import frc.robot.commands.TurnOnIntakeCommand;
 import frc.robot.commands.TurnOnShooterCommand;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivebase;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -39,6 +40,7 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter();
   private final Drivebase m_Drivebase = new Drivebase();
   private final Climber m_climber = new Climber();
+  private final Indexer m_indexer = new Indexer();
 
   // private final ExampleCommand m_autoCommand = new
   // ExampleCommand(m_exampleSubsystem);
@@ -88,8 +90,8 @@ public class RobotContainer {
       .whenReleased(new TurnOffShooterCommand(m_shooter));
 
     P1_aButton
-      .whenPressed(new TurnOnIndexer(m_shooter))
-      .whenReleased(new TurnOffIndexer(m_shooter));
+      .whenPressed(new TurnOnIndexer(m_indexer))
+      .whenReleased(new TurnOffIndexer(m_indexer));
 
     P1_yButton
       .whenPressed(new ReverseIntake(m_intake))

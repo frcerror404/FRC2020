@@ -5,24 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.autonomous.modes;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.Indexer;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.autonomous.commands.SetDrivetrainSpeedForTime;
+import frc.robot.subsystems.Drivebase;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class TurnOnIndexer extends InstantCommand {
-  private final Indexer m_indexer;
-  public TurnOnIndexer(Indexer indexer) {
-    m_indexer = indexer;
-    addRequirements(indexer);
-  }
+public class DriveStraightAuton extends SequentialCommandGroup {
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    m_indexer.setIndexerWheelSpeed(-.65);
+  
+  /**
+   * Drive straight for X amount of seconds
+   */
+  public DriveStraightAuton(Drivebase drivebase) {
+    super(new SetDrivetrainSpeedForTime(.5, .5, 2.5, drivebase));
+
+    addRequirements(drivebase);
   }
 }
