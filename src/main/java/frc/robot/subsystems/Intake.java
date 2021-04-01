@@ -14,9 +14,9 @@ import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class Intake extends SubsystemBase {
-  private final TalonSRX intakeMotor = new TalonSRX(21);
-  private final TalonSRX HorizontalMotor = new TalonSRX(22);
-  private final TalonSRX VerticalMotor = new TalonSRX(23);
+  private final TalonSRX intakeMotor = new TalonSRX(13);
+  private final TalonSRX HorizontalMotor = new TalonSRX(11);
+  private final TalonSRX VerticalMotor = new TalonSRX(12);
   /**
    * Creates a new Intake.
    */
