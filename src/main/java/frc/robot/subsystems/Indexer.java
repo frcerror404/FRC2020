@@ -13,7 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Indexer extends SubsystemBase {
-  private final TalonSRX indexerWheel = new TalonSRX(24);
+  private final TalonSRX indexerWheel = new TalonSRX(55);
   /**
    * Creates a new Indexer.
    */

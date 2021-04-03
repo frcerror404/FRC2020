@@ -9,28 +9,28 @@ package frc.robot.commands.autonomous.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Elevator;
 
-public class SetIntakeSpeedForTime extends CommandBase {
-  private final Intake intake;
+public class SetElevatorSpeedForTime extends CommandBase {
+  private final Elevator elevator;
   private final double durationS, speed;
   private double startTime;
   /**
    * Creates a new SetIntakeSpeedForTime.
    */
-  public SetIntakeSpeedForTime(double speed, double durationS, Intake intake) {
+  public SetElevatorSpeedForTime(double speed, double durationS, Elevator elevator) {
     this.speed = speed;
     this.durationS = durationS;
-    this.intake = intake;
+    this.elevator = elevator;
 
-    addRequirements(intake);
+    addRequirements(elevator);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     startTime = Timer.getFPGATimestamp();
-    intake.setIntakeSpeed(speed);
+    elevator.setElevatorSpeed(speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,7 +41,7 @@ public class SetIntakeSpeedForTime extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intake.turnOffIntake();
+    elevator.turnOffElevator();
   }
 
   // Returns true when the command should end.

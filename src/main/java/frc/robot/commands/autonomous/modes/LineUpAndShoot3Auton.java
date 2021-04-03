@@ -12,11 +12,10 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.TurnOffShooterCommand;
 import frc.robot.commands.TurnOnShooterCommand;
 import frc.robot.commands.autonomous.commands.SetDrivetrainSpeedForTime;
-import frc.robot.commands.autonomous.commands.SetIntakeSpeedForTime;
 import frc.robot.commands.autonomous.commands.TurnOnIndexerForTime;
 import frc.robot.subsystems.Drivebase;
 import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Shooter;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -25,37 +24,35 @@ import frc.robot.subsystems.Shooter;
 public class LineUpAndShoot3Auton extends SequentialCommandGroup {
   private static double shooterWarmUpTime = 3.0,
                         timeBetweenShots = 1.0,
-                        indexerOnTime = 0.5,
-                        intakeOnTime = 1.5,
-                        indexerSpeed = -0.65,
-                        intakeSpeed = -0.65;
+                        elevatorOnTime = 1.5,
+                        elevatorSpeed = -0.65;
   /**
    * Creates a new LineUpAndShoot3.
    */
-  public LineUpAndShoot3Auton(Drivebase drivebase, Shooter shooter, Indexer indexer, Intake intake ) {
+  public LineUpAndShoot3Auton(Drivebase drivebase, Shooter shooter, Indexer indexer, Elevator intake ) {
     // Drive, then shoot 3
     super(
       // drive up
-      new SetDrivetrainSpeedForTime(.6, .6, 2.0, drivebase),
+      new SetDrivetrainSpeedForTime(.6, .6, 2.0, drivebase)
       // turn on shooter
-      new TurnOnShooterCommand(shooter),
+      // new TurnOnShooterCommand(shooter),
 
       // 1st shot
-      new WaitCommand(shooterWarmUpTime),
-      new TurnOnIndexerForTime(indexerSpeed, indexerOnTime, indexer),
+      // new WaitCommand(shooterWarmUpTime),
+      // new TurnOnIndexerForTime(indexerSpeed, indexerOnTime, indexer),
 
-      // 2nd shot
-      new SetIntakeSpeedForTime(intakeSpeed, intakeOnTime, intake),
-      new WaitCommand(timeBetweenShots),
-      new TurnOnIndexerForTime(indexerSpeed, indexerOnTime, indexer),
+      // // 2nd shot
+      // new SetElevatorSpeedForTime(elevatorSpeed, elevatorOnTime, intake),
+      // new WaitCommand(timeBetweenShots),
+      // new TurnOnIndexerForTime(indexerSpeed, indexerOnTime, indexer),
 
-      // 3rd shot
-      new SetIntakeSpeedForTime(intakeSpeed, intakeOnTime, intake),
-      new WaitCommand(timeBetweenShots),
-      new TurnOnIndexerForTime(indexerSpeed, indexerOnTime, indexer),
+      // // 3rd shot
+      // new SetElevatorSpeedForTime(elevatorSpeed, elevatorOnTime, intake),
+      // new WaitCommand(timeBetweenShots),
+      // new TurnOnIndexerForTime(indexerSpeed, indexerOnTime, indexer),
 
-      // turn off shooter
-      new TurnOffShooterCommand(shooter)
+      // // turn off shooter
+      // new TurnOffShooterCommand(shooter)
     );
 
     addRequirements(drivebase, shooter, indexer, intake);

@@ -12,14 +12,15 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Drivebase extends SubsystemBase {
-  private final CANSparkMax leftMaster = new CANSparkMax(10, MotorType.kBrushless);
-  private final CANSparkMax rightSlave = new CANSparkMax(12, MotorType.kBrushless);
-  private final CANSparkMax leftSlave = new CANSparkMax(11, MotorType.kBrushless);
-  private final CANSparkMax rightMaster = new CANSparkMax(13, MotorType.kBrushless);
-  private final DifferentialDrive drivetrain = new DifferentialDrive(leftMaster, rightMaster);
+  private final CANSparkMax leftMaster = new CANSparkMax(Constants.klDT1, MotorType.kBrushless);
+  private final CANSparkMax leftSlave = new CANSparkMax(Constants.klDT2, MotorType.kBrushless);
 
+  private final CANSparkMax rightMaster = new CANSparkMax(Constants.krDT3, MotorType.kBrushless);
+  private final CANSparkMax rightSlave = new CANSparkMax(Constants.krDT4, MotorType.kBrushless);
+  //private final DifferentialDrive drivetrain = new DifferentialDrive(leftMaster, rightMaster);
 
   // drive train speed, set to 0.x for X% speed
   private final double drivetrainMultiplier = 1.0;
@@ -29,6 +30,7 @@ public class Drivebase extends SubsystemBase {
    */
   public Drivebase() {
     leftSlave.follow(leftMaster);
+
     rightSlave.follow(rightMaster);
   }
 
@@ -38,7 +40,13 @@ public class Drivebase extends SubsystemBase {
   }
 
   public void manualControl(double rawAxis, double rawAxis2) {
-    drivetrain.tankDrive(rawAxis * drivetrainMultiplier, rawAxis2 * drivetrainMultiplier);
+    System.out.println(String.format("Drivetrain raw: X %.2f Y %.2f", rawAxis, rawAxis2));
+    System.out.println(String.format("RightMaster: %.2f, LeftMaster: %.2f", rightMaster.getAppliedOutput(), leftMaster.getAppliedOutput()));
+    
+    leftMaster.set(rawAxis * drivetrainMultiplier);
+    rightMaster.set(rawAxis2 * drivetrainMultiplier);
+    
+    //drivetrain.tankDrive(rawAxis * drivetrainMultiplier, rawAxis2 * drivetrainMultiplier);
   }
 
   

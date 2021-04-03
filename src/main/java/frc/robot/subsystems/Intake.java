@@ -7,50 +7,31 @@
 
 package frc.robot.subsystems;
 
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
 public class Intake extends SubsystemBase {
-  private final TalonSRX intakeMotor = new TalonSRX(13);
-  private final TalonSRX HorizontalMotor = new TalonSRX(11);
-  private final TalonSRX VerticalMotor = new TalonSRX(12);
+  private final TalonSRX m_intakeMotor = new TalonSRX(Constants.kFrontIntake);
   /**
    * Creates a new Intake.
    */
   public Intake() {
 
-  } 
-
-  public void turnOnIntake() {
-    intakeMotor.set(TalonSRXControlMode.PercentOutput, -0.65);
-    HorizontalMotor.set(TalonSRXControlMode.PercentOutput, -0.65);
-    VerticalMotor.set(TalonSRXControlMode.PercentOutput, -0.65);
-  }
-
-  public void reverseIntake() {
-    intakeMotor.set(TalonSRXControlMode.PercentOutput, 0.5);
-    HorizontalMotor.set(TalonSRXControlMode.PercentOutput, 0.5);
-    VerticalMotor.set(TalonSRXControlMode.PercentOutput, 0.5);
-  }
-
-  public void turnOffIntake(){
-    intakeMotor.set(TalonSRXControlMode.PercentOutput, 0);
-    HorizontalMotor.set(TalonSRXControlMode.PercentOutput, 0.0);
-    VerticalMotor.set(TalonSRXControlMode.PercentOutput, 0.0);
-
-  }
-
-  public void setIntakeSpeed(double speed) {
-    intakeMotor.set(TalonSRXControlMode.PercentOutput, speed);
-    HorizontalMotor.set(TalonSRXControlMode.PercentOutput, speed);
-    VerticalMotor.set(TalonSRXControlMode.PercentOutput, speed);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void setIntakeSpeed(double speed) {
+    if(speed < -1 || speed > -1) {
+      speed = 0;
+    } 
+
+    m_intakeMotor.set(TalonSRXControlMode.PercentOutput, speed);
   }
 }

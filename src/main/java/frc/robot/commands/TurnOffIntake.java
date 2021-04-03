@@ -8,25 +8,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Intake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class TurnOffIndexer extends InstantCommand {
+public class TurnOffIntake extends InstantCommand {
 
-  private Indexer m_indexer;
+  private Intake m_intake;
 
-  public TurnOffIndexer(Indexer indexer) {
+  public TurnOffIntake(Intake intake) {
 
-    m_indexer = indexer;
-    addRequirements(indexer);
+    m_intake = intake;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_indexer.setIndexerWheelSpeed(0.0);
+    m_intake.setIntakeSpeed(0.0);
   }
 }

@@ -14,11 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.autonomous.modes.DriveStraightAuton;
-import frc.robot.commands.autonomous.modes.LineUpAndShoot3Auton;
 import frc.robot.commands.autonomous.modes.NoopAuton;
 import frc.robot.subsystems.Drivebase;
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Shooter;
 
 /**
@@ -28,13 +26,6 @@ import frc.robot.subsystems.Shooter;
  * project.
  */
 public class Robot extends TimedRobot {
-  private Drivebase m_drivebase;
-  private Indexer m_indexer;
-  private Intake m_intake;
-  private Shooter m_shooter;
-
-
-
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -51,18 +42,12 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    m_drivebase = new Drivebase();
-    m_indexer = new Indexer();
-    m_intake = new Intake();
-    m_shooter = new Shooter();
-
-    UsbCamera camera0 = CameraServer.getInstance().startAutomaticCapture();
-    camera0.setResolution(320, 240);
-    camera0.setFPS(20);
+    // UsbCamera camera0 = CameraServer.getInstance().startAutomaticCapture();
+    // camera0.setResolution(320, 240);
+    // camera0.setFPS(20);
 
     chooser.addOption("Nothing", new NoopAuton());
-		chooser.addOption("Drive forward", new DriveStraightAuton(m_drivebase));
-    chooser.addOption("Shoot 3", new LineUpAndShoot3Auton(m_drivebase, m_shooter, m_indexer, m_intake));
+		chooser.addOption("Drive forward", new DriveStraightAuton(m_robotContainer.drivebase));
   }
 
   /**

@@ -8,20 +8,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Elevator;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class TurnOnIntakeCommand extends InstantCommand {
-  private final Intake m_intake;
-  public TurnOnIntakeCommand(Intake intake) {
-    m_intake = intake;
-    addRequirements(intake);
+public class ReverseElevator extends InstantCommand {
+  public final Elevator elevator;
+  public ReverseElevator(Elevator elevator) {
+    this.elevator = elevator;
+    addRequirements(elevator);
   }
 
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_intake.turnOnIntake();
+    elevator.reverseElevator();
   }
 }

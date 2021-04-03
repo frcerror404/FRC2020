@@ -16,9 +16,14 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    int kPoweredV1 = 11;
-    int kPoweredv2 = 12;
-    int kFrontIntake = 13;
-    int kElevator1 = 14;
-    int kElevator2 = 15;
+    public static int kPoweredV1 = 11;
+    public static int kPoweredv2 = 12;
+    public static int kFrontIntake = 13;
+    public static int kElevator1 = 14;
+    public static int kElevator2 = 15;
+    public static int klDT1 = 21;
+    public static int klDT2 = 22;
+    public static int krDT3 = 23;
+    public static int krDT4 = 24;
+    public static int kShooter = 25;
 }
