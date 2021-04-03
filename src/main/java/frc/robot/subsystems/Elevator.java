@@ -23,11 +23,10 @@ public class Elevator extends SubsystemBase {
    */
   public Elevator() {
     m_Motor2.follow(this.m_Motor1);
-    m_Motor2.setInverted(InvertType.OpposeMaster);
   } 
 
   public void turnOnElevator() {
-    m_Motor1.set(TalonSRXControlMode.PercentOutput, -0.65);
+    m_Motor1.set(TalonSRXControlMode.PercentOutput, -1);
   }
 
   public void reverseElevator() {

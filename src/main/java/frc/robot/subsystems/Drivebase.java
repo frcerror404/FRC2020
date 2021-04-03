@@ -35,7 +35,7 @@ public class Drivebase extends SubsystemBase {
     rightMaster.setIdleMode(IdleMode.kBrake);
     rightSlave.setIdleMode(IdleMode.kBrake);
 
-    double rampRate = .5;
+    double rampRate = .25;
     rightMaster.setOpenLoopRampRate(rampRate);
     rightSlave.setOpenLoopRampRate(rampRate);
     leftMaster.setOpenLoopRampRate(rampRate);
@@ -49,6 +49,7 @@ public class Drivebase extends SubsystemBase {
     rightSlave.follow(rightMaster);
 
     rightMaster.setInverted(true);
+    leftMaster.setInverted(true);
   }
 
   @Override
@@ -56,7 +57,7 @@ public class Drivebase extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void manualControl(double rawAxis, double rawAxis2) {
+  public void manualControl(double rawAxis, double rawAxis2, boolean button) {
     System.out.println(String.format("Drivetrain raw: X %.2f Y %.2f", rawAxis, rawAxis2));
     System.out.println(String.format("RightMaster: %.2f, LeftMaster: %.2f", rightMaster.getAppliedOutput(), leftMaster.getAppliedOutput()));
     
@@ -64,9 +65,10 @@ public class Drivebase extends SubsystemBase {
     //rightMaster.set(rawAxis2 * drivetrainMultiplier);
     
     if(Constants.isCurvatureDrive) {
-      drivetrain.curvatureDrive(rawAxis, rawAxis2, false);
+      drivetrain.curvatureDrive(rawAxis, -rawAxis2, button);
+      //drivetrain.arcadeDrive(rawAxis, -rawAxis2 * 0.5);
     } else {
-      drivetrain.tankDrive(rawAxis * drivetrainMultiplier, rawAxis2);
+      drivetrain.tankDrive(rawAxis, rawAxis2);
     }
     
   }

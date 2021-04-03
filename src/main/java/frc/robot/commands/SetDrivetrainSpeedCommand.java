@@ -42,12 +42,19 @@ public class SetDrivetrainSpeedCommand extends CommandBase {
     if(!m_turbo.getAsBoolean()) {
       leftAxis *= speedMultiplier;
 
-      if(Constants.isCurvatureDrive) {
-        rightAxis *= speedMultiplier;
+      //if(!Constants.isCurvatureDrive) {
+      rightAxis *= 0.8;
+      
+      if(rightAxis > 0) {
+        rightAxis *= rightAxis;
+      } else {
+        rightAxis *= rightAxis;
+        rightAxis *= -1;
       }
+      //}
     }
 
-    m_Drivebase.manualControl(leftAxis, -rightAxis);
+    m_Drivebase.manualControl(leftAxis, rightAxis, m_turbo.getAsBoolean());
   }
 
    // Make this return true when this Command no longer needs to run execute()
