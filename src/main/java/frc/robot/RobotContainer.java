@@ -104,12 +104,23 @@ public class RobotContainer {
 
       
 
-    drivebase.setDefaultCommand(
-      new SetDrivetrainSpeedCommand(
-        () -> joy0.getY(Hand.kLeft),
-        () -> joy0.getY(Hand.kRight),
-        () -> P0_rightBumper.get(),
-        drivebase));
+    if(Constants.isCurvatureDrive) {
+      drivebase.setDefaultCommand(
+        new SetDrivetrainSpeedCommand(
+          () -> joy0.getY(Hand.kLeft),
+          () -> joy0.getX(Hand.kRight),
+          () -> P0_rightBumper.get(),
+          drivebase));
+  
+    } else {
+      drivebase.setDefaultCommand(
+        new SetDrivetrainSpeedCommand(
+          () -> joy0.getY(Hand.kLeft),
+          () -> joy0.getY(Hand.kRight),
+          () -> P0_rightBumper.get(),
+          drivebase));
+  
+    }
 
 
       // m_climber.setDefaultCommand(

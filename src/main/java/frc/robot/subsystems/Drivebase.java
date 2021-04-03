@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -29,9 +30,25 @@ public class Drivebase extends SubsystemBase {
    * Creates a new Drivebase.
    */
   public Drivebase() {
+    leftMaster.setIdleMode(IdleMode.kBrake);
+    leftSlave.setIdleMode(IdleMode.kBrake);
+    rightMaster.setIdleMode(IdleMode.kBrake);
+    rightSlave.setIdleMode(IdleMode.kBrake);
+
+    double rampRate = .5;
+    rightMaster.setOpenLoopRampRate(rampRate);
+    rightSlave.setOpenLoopRampRate(rampRate);
+    leftMaster.setOpenLoopRampRate(rampRate);
+    leftSlave.setOpenLoopRampRate(rampRate);
+
+    drivetrain.setMaxOutput(drivetrainMultiplier);
+
+    drivetrain.setRightSideInverted(false);
     
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
+
+    rightMaster.setInverted(true);
   }
 
   @Override
@@ -46,7 +63,12 @@ public class Drivebase extends SubsystemBase {
     //leftMaster.set(rawAxis * drivetrainMultiplier);
     //rightMaster.set(rawAxis2 * drivetrainMultiplier);
     
-    drivetrain.tankDrive(-rawAxis * drivetrainMultiplier, rawAxis2 * drivetrainMultiplier);
+    if(Constants.isCurvatureDrive) {
+      drivetrain.curvatureDrive(rawAxis, rawAxis2, false);
+    } else {
+      drivetrain.tankDrive(rawAxis * drivetrainMultiplier, rawAxis2);
+    }
+    
   }
 
   

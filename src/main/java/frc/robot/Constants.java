@@ -26,4 +26,6 @@ public final class Constants {
     public static int krDT3 = 23;
     public static int krDT4 = 24;
     public static int kShooter = 25;
+
+    public static boolean isCurvatureDrive = true;
 }
