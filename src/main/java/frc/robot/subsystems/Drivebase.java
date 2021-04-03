@@ -20,7 +20,7 @@ public class Drivebase extends SubsystemBase {
 
   private final CANSparkMax rightMaster = new CANSparkMax(Constants.krDT3, MotorType.kBrushless);
   private final CANSparkMax rightSlave = new CANSparkMax(Constants.krDT4, MotorType.kBrushless);
-  //private final DifferentialDrive drivetrain = new DifferentialDrive(leftMaster, rightMaster);
+  private final DifferentialDrive drivetrain = new DifferentialDrive(leftMaster, rightMaster);
 
   // drive train speed, set to 0.x for X% speed
   private final double drivetrainMultiplier = 1.0;
@@ -29,8 +29,8 @@ public class Drivebase extends SubsystemBase {
    * Creates a new Drivebase.
    */
   public Drivebase() {
+    
     leftSlave.follow(leftMaster);
-
     rightSlave.follow(rightMaster);
   }
 
@@ -43,10 +43,10 @@ public class Drivebase extends SubsystemBase {
     System.out.println(String.format("Drivetrain raw: X %.2f Y %.2f", rawAxis, rawAxis2));
     System.out.println(String.format("RightMaster: %.2f, LeftMaster: %.2f", rightMaster.getAppliedOutput(), leftMaster.getAppliedOutput()));
     
-    leftMaster.set(rawAxis * drivetrainMultiplier);
-    rightMaster.set(rawAxis2 * drivetrainMultiplier);
+    //leftMaster.set(rawAxis * drivetrainMultiplier);
+    //rightMaster.set(rawAxis2 * drivetrainMultiplier);
     
-    //drivetrain.tankDrive(rawAxis * drivetrainMultiplier, rawAxis2 * drivetrainMultiplier);
+    drivetrain.tankDrive(-rawAxis * drivetrainMultiplier, rawAxis2 * drivetrainMultiplier);
   }
 
   
